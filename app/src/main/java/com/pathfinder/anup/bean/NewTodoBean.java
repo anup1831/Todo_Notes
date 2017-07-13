@@ -5,6 +5,7 @@ package com.pathfinder.anup.bean;
  */
 
 public class NewTodoBean {
+    private int id;
     private String todoTitle;
     private String todoDesc;
     private String markDate;
@@ -18,6 +19,14 @@ public class NewTodoBean {
         this.todoDesc = todoDesc;
         this.markDate = markDate;
         this.markTime = markTime;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTodoTitle() {

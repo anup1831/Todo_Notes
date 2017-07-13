@@ -17,15 +17,20 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.pathfinder.anup.bean.NewTodoBean;
+import com.pathfinder.anup.database.DatabaseManager;
+import com.pathfinder.anup.views.CustomeEditText;
+
 import java.util.Calendar;
 
 public class NewTodoScreen extends AppCompatActivity implements View.OnClickListener, TextWatcher {
 
-    private EditText mTodoTitle, mTodoDesc;
+    private CustomeEditText mTodoTitle, mTodoDesc;
     private int mYear, mMonth, mDay, mHour, mMinute;
     private Button btnSave, mSetDate, mSetTime;
     private String btnText = new String();
     StringBuilder dateBuilder;// = new StringBuilder();
+    private NewTodoBean todoBean;
 
 
     public String getBtnText() {
@@ -50,9 +55,9 @@ public class NewTodoScreen extends AppCompatActivity implements View.OnClickList
     }
 
     private void initScreen(){
-        mTodoTitle = (EditText) findViewById(R.id.todo_title);
+        mTodoTitle = (CustomeEditText) findViewById(R.id.todo_title);
         mTodoTitle.addTextChangedListener(this);
-        mTodoDesc = (EditText) findViewById(R.id.todo_desc);
+        mTodoDesc = (CustomeEditText) findViewById(R.id.todo_desc);
         mTodoDesc.addTextChangedListener(this);
         mSetDate = (Button) findViewById(R.id.todo_set_date);
         mSetDate.setOnClickListener(this);
@@ -69,10 +74,12 @@ public class NewTodoScreen extends AppCompatActivity implements View.OnClickList
             try {
                 Log.i("Anup", "Anup - Save Clicked!");
                 checkFieldValidation();
+                saveTodos();
                 Toast.makeText(getApplicationContext(), "Save", Toast.LENGTH_LONG).show();
             } catch (Exception e) {
                 Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
             }
+            this.finish();
         } else if(view.getId() == R.id.btn_save && getBtnText().equalsIgnoreCase(getResources().getString(R.string.btn_dismiss))){
             Log.i("Anup", "Anup - Dismiss Clicked!");
             this.finish();
@@ -90,11 +97,11 @@ public class NewTodoScreen extends AppCompatActivity implements View.OnClickList
             throw new ValidationException("Title can not be empty!");
         } else if (mTodoDesc.getText().toString().isEmpty()) {
             throw new ValidationException("Description can not be empty!");
-        } /*else if (mSetDate.getText().toString().isEmpty()) {
+        } else if (mSetDate.getText().toString().isEmpty()) {
             throw new ValidationException("Date will help generate reports!");
         } else if(mSetDate.getText().toString().isEmpty()){
             throw new ValidationException("Time will remind the task");
-        }*/
+        }
     }
 
     @Override
@@ -119,7 +126,10 @@ public class NewTodoScreen extends AppCompatActivity implements View.OnClickList
        if(mTodoTitle.getText().length()> 0 ) {
             setBtnText(btnSave.getText().toString());
             btnSave.setText(getResources().getString(R.string.btn_save));
-        } else {
+        } else if(mTodoDesc.getText().length() > 0){
+           setBtnText(btnSave.getText().toString());
+           btnSave.setText(getResources().getString(R.string.btn_save));
+       } else {
             setBtnText( btnSave.getText().toString());
             btnSave.setText(getResources().getString(R.string.btn_dismiss));
         }
@@ -173,6 +183,14 @@ public class NewTodoScreen extends AppCompatActivity implements View.OnClickList
         return "";
     }
 
+    private void saveTodos(){
+        todoBean = new NewTodoBean();
+        todoBean.setTodoTitle(mTodoTitle.getText().toString());
+        todoBean.setTodoDesc(mTodoDesc.getText().toString());
+        todoBean.setMarkDate(mSetDate.getText().toString());
+        todoBean.setMarkTime(mSetTime.getText().toString());
 
+        new DatabaseManager(NewTodoScreen.this).insertTodo(todoBean);
+    }
 
 }

@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:layout_margin="@dimen/margin_12">
 
-    <EditText
+    <com.pathfinder.anup.views.CustomeEditText
         android:id="@+id/todo_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,7 +17,7 @@
         android:textColor="@color/white"
         android:textSize="@dimen/text_size_18"/>
 
-    <EditText
+    <com.pathfinder.anup.views.CustomeEditText
         android:id="@+id/todo_desc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -49,6 +49,7 @@
         android:textStyle="italic"
         android:padding="@dimen/padding_10"
         android:hint="@string/set_remainder"
+        android:gravity="left"
         android:textColor="@color/white"
         android:editable="false"
         android:textSize="@dimen/text_size_18"/>

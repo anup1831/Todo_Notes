@@ -9,18 +9,20 @@
     <TextView
         android:id="@+id/tv_todo_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:textSize="@dimen/text_size_24"
         android:textColor="@color/blackish_yellow_20"
+        android:maxLines="1"
         android:text="title"/>
 
     <TextView
         android:id="@+id/tv_todo_desc"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:textSize="@dimen/text_size_18"
         android:textColor="@color/blackish_yellow"
         android:layout_marginTop="@dimen/margin_8"
+        android:maxLines="1"
         android:text="desc"/>
 
 </LinearLayout>

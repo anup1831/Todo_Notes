@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.pathfinder.anup.Utils.Constants;
 import com.pathfinder.anup.bean.NewTodoBean;
 import com.pathfinder.anup.database.DatabaseManager;
 import com.pathfinder.anup.views.CustomeEditText;
@@ -79,7 +80,10 @@ public class NewTodoScreen extends AppCompatActivity implements View.OnClickList
             } catch (Exception e) {
                 Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
             }
-            this.finish();
+            Intent data = new Intent();
+            data.putExtra(Constants.IS_DATA_ADDED, Constants.DATA_ADDED);
+            setResult(RESULT_OK, data);
+            finish();
         } else if(view.getId() == R.id.btn_save && getBtnText().equalsIgnoreCase(getResources().getString(R.string.btn_dismiss))){
             Log.i("Anup", "Anup - Dismiss Clicked!");
             this.finish();
@@ -89,6 +93,7 @@ public class NewTodoScreen extends AppCompatActivity implements View.OnClickList
             mSetDate.setText(date);
         } else if (view.getId() == R.id.todo_set_time){
             String time = setTime();
+            mSetTime.setText(time);
         }
     }
 
@@ -192,5 +197,6 @@ public class NewTodoScreen extends AppCompatActivity implements View.OnClickList
 
         new DatabaseManager(NewTodoScreen.this).insertTodo(todoBean);
     }
+
 
 }
